@@ -1,0 +1,6 @@
+[submodule "3pp/cppjieba"]
+	path = 3pp/cppjieba
+	url = git@github.com:NorwayLobster/cppjieba.git
+[submodule "3pp/simhash"]
+	path = 3pp/simhash
+	url = git@github.com:NorwayLobster/simhash.git
