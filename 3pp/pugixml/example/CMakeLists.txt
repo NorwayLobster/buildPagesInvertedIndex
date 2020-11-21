@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.6)
-project(pugixml_example_bin)
+# project(pugixml)
+# project(pugixml_example_bin)
 
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEX2" CACHE STRING "Set C++ Compiler Flags" FORCE)
@@ -51,10 +52,38 @@ target_link_libraries(example_bin
 
 target_include_directories(example_bin
   PUBLIC
-    ${CMAKE_SOURCE_DIR}/include 
-    # ${PROJECT_SOURCE_DIR}/include 
+    # ${CMAKE_SOURCE_DIR}/include 
+    ${PROJECT_SOURCE_DIR}/include 
     ${Boost_INCLUDE_DIRS}
 )
+#note:
+# 1. project()
+# 2. set()
+# set(HTTPS_INCLUDE ${PROJECT_SOURCE_DIR}/include)
+# set(HTTPS_INCLUDE ${HTTPS_INCLUDE} PARENT_SCOPE)
+# 3. message()
+message("PROJECT_SOURCE_DIR:       ${PROJECT_SOURCE_DIR}") #print PROJECT_SOURCE_DIR 
+message("CMAKE_SOURCE_DIR:         ${CMAKE_SOURCE_DIR}")
+message("CMAKE_CURRENT_SOURCE_DIR: ${CMAKE_CURRENT_SOURCE_DIR}")
+
+message("PROJECT_BINARY_DIR:       ${PROJECT_BINARY_DIR}")
+message("CMAKE_BINARY_DIR:         ${CMAKE_BINARY_DIR}")
+message("CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+
+message("CMAKE_CURRENT_LIST_DIR:   ${CMAKE_CURRENT_LIST_DIR}")
+message("CMAKE_CURRENT_LIST_FILE:  ${CMAKE_CURRENT_LIST_FILE}")
+message("CMAKE_CURRENT_LIST_LINE:  ${CMAKE_CURRENT_LIST_LINE}")
+
+message("CMAKE_MODULE_PATH:        ${CMAKE_MODULE_PATH}")
+message("CMAKE_INCLUDE_PATH:       ${CMAKE_INCLUDE_PATH}")
+message("CMAKE_LIBRARY_PATH:       ${CMAKE_LIBRARY_PATH}")
+message("CMAKE_INCLUDE_CURRENT_DIR:${CMAKE_INCLUDE_CURRENT_DIR}")
+
+
+
+
+
+
 
 if( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
   message(STATUS "Setting default CMAKE_INSTALL_PREFIX path to ${CMAKE_BINARY_DIR}/install")

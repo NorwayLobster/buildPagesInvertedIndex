@@ -1,0 +1,1 @@
+/usr/bin/c++   -DEX2 -DEX2 -std=c++17   CMakeFiles/example_bin.dir/main.cc.o  -o example_bin -Wl,-rpath,/mnt/hgfs/ChengWang/C++/Projects/repo/buildPagesInvertedIndex/3pp/pugixml/build/src:/usr/local/lib: ../src/libpugixml.so /usr/local/lib/libboost_regex.so 

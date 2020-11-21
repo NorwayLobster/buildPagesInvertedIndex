@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -DEX2 -DEX2  -shared -Wl,-soname,libpugixml.so -o libpugixml.so CMakeFiles/pugixml.dir/pugixml.cpp.o 

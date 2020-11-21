@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(pugixml)
+# project(pugixml)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEX2" CACHE STRING "Set C++ Compiler Flags" FORCE)
 
@@ -29,8 +29,9 @@ add_library(sub::pugixml ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}
   PUBLIC 
-    ${CMAKE_SOURCE_DIR}/include #   CMAKE_SOURCE_DIR v.s.  PROJECT_SOURCE_DIR 的 区别
-    # ${PROJECT_SOURCE_DIR}/include
+    # ${PROJECT_SOURCE_DIR}/3pp/pugixml/include #   CMAKE_SOURCE_DIR v.s.  PROJECT_SOURCE_DIR 的 区别
+    # ${CMAKE_SOURCE_DIR}/include #   CMAKE_SOURCE_DIR v.s.  PROJECT_SOURCE_DIR 的 区别
+    ${PROJECT_SOURCE_DIR}/include
     # ${Boost_INCLUDE_DIRS}
 )
 
