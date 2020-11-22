@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
-project(buildPagesInvertedIndex)
+# project(buildPagesInvertedIndex)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEX2" CACHE STRING "Set C++ Compiler Flags" FORCE)
 
@@ -40,6 +40,12 @@ add_executable(${PROJECT_NAME}
     WebPage.cc
 )
 
+target_include_directories( ${PROJECT_NAME}
+  PUBLIC
+    ${PROJECT_SOURCE_DIR}/include
+    # ${Boost_INCLUDE_DIRS}
+)
+message(${PROJECT_SOURCE_DIR})
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
     sub::cppjieba
@@ -53,8 +59,3 @@ target_link_libraries(${PROJECT_NAME}
     # Boost::system
 )
 
-target_include_directories( ${PROJECT_NAME}
-  PUBLIC
-    ${CMAKE_SOURCE_DIR}/include
-    # ${Boost_INCLUDE_DIRS}
-)

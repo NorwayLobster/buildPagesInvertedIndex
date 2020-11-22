@@ -1,0 +1,15 @@
+project_root_dir /mnt/hgfs/ChengWang/C++/Projects/repo/preprocessForKeywordsRecommendation/
+en_file inputData/englishFile/english.txt
+en_dictionary_fullpath outputData/enDict.dat
+en_dictionary_index_fullpath outputData/enDictIndex.dat
+cn_file_path inputData/chineseFile/chineseFilePaths.txt
+cn_dictionary_fullpath outputData/cnDict.dat
+cn_dictionary_index_fullpath outputData/cnDictIndex.dat
+dict_path 3pp/cppjieba/dict/jieba.dict.utf8
+hmm_path  3pp/cppjieba/dict/hmm_model.utf8
+user_dict_path 3pp/cppjieba/dict/user.dict.utf8
+idf_path 3pp/cppjieba/dict/idf.utf8
+stopword_path 3pp/cppjieba/dict/stop_words.utf8
+ip 127.0.0.1
+port 9999
+thread_num 4 

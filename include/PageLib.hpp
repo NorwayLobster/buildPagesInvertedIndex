@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-20 21:38:29
- * @LastEditTime: 2020-11-20 23:27:48
+ * @LastEditTime: 2020-11-21 15:26:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /buildPagesInvertedIndex/include/PageLib.hpp
@@ -11,11 +11,14 @@
 #include <vector>
 #include "WebPage.hpp"
 using std::vector;
+
+namespace port::xmlparser {
 class PageLib{
   public:
-  void buildPageLib();
+  void encodeToXml(const string& pageDestinationFullPath);
+  void decodeFromXml(const string& pageSrcFullPath);
   private:
-  void decodeFromXml();
-  vector<WebPage> _Pages;
+  vector<WebPage> _pagesVec;
 };
+}//end of namespace port::xmlparser
 #endif
