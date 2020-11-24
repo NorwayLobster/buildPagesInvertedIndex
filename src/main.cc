@@ -11,6 +11,8 @@
 #include <vector>
 #include <string>
 #include "PageLib.hpp"
+#include "pagesIndexProducer.hpp"
+#include "pagesDeduplication.hpp"
 #include "WebPage.hpp"
 #include "configure.hpp"
 using std::endl;
@@ -54,17 +56,18 @@ int main(int argc, char **argv){
 	string jieba_stopword_fullpath = project_root_dir+config.getConf()["stopword_path"];
 
     splitToolCppJieba spT(jieba_dictionary_index_fullpath, jieba_hmm_fullpath, jieba_user_dict_fullpath, jieba_idf_fullpath, jieba_stopword_fullpath);
+    pagesDeduplication pagesD();
 
-    pageIndexProducer indexPro;
-    dictProducer cnDictPro(&spT);
-    std::ifstream ifs(cn_fileOfFilesName_fullPath); 
-    string line;
-    while(std::getline(ifs,line)){
-	string cn_file_path = project_root_dir+"inputData/"+line;
-        // cout<<"filePullPath:"<<cn_file_path<<endl;
-        cnDictPro.buildChineseDict(cn_file_path);
-    }
-    cnDictPro.storeDict(cn_dictionary_fullpath); //dictPro.storeDict("../data/dictChinese.dat");
+    pageIndexProducer indexPro(&spT,&pagesD);
+    // dictProducer cnDictPro(&spT);
+  //   std::ifstream ifs(cn_fileOfFilesName_fullPath); 
+  //   string line;
+  //   while(std::getline(ifs,line)){
+	// string cn_file_path = project_root_dir+"inputData/"+line;
+  //       // cout<<"filePullPath:"<<cn_file_path<<endl;
+  //       cnDictPro.buildChineseDict(cn_file_path);
+  //   }
+  //   cnDictPro.storeDict(cn_dictionary_fullpath); //dictPro.storeDict("../data/dictChinese.dat");
 
     indexProducer cnIndexPro;
     cnIndexPro.buildIndex(cn_dictionary_fullpath);

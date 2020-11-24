@@ -9,7 +9,7 @@
 #ifndef __Pages_Index_Producer_Hpp__
 #define __Pages_Index_Producer_Hpp__
 #include "splitToolCppJieba.hpp"
-#include "simhash/simhasher.hpp"
+#include "pagesDeduplication.hpp"
 #include <vector>
 #include <string>
 #include <set>
@@ -18,19 +18,21 @@ using std::string;
 class PagesIndexProducer{
  public: 
   PagesIndexProducer()=default;
-  PagesIndexProducer(splitToolCppJieba*p, simhash::Simhasher *simhasher, const string&);
+  PagesIndexProducer(splitToolCppJieba*p, pagesDeduplication *p1, const string&);
   ~PagesIndexProducer()=default;
   PagesIndexProducer(const PagesIndexProducer&)=delete;
   void buildIndex();
   void storeIndex(const string&);
   private:
-  void pagesDeduplication();
+  void deduplicate();
   void decodeFromXml(const string& filePath);
+  void encodeToNewXml(const string& filePath);
 
   private:
   splitToolCppJieba *_p;
+  pagesDeduplication * _pPagesDeduplication;
   std::vector<std::vector<string>>  _wordPages;
+  std::vector<std::vector<string>>  _wordNewPages;//without duplication //TODO：可以不存储两次,节省空间
   std::map<string,std::pair<std::set<int>,double>> _index;
-  simhash::Simhasher *_pSimhasher;
 };
 #endif

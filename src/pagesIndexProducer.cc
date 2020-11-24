@@ -11,21 +11,21 @@
 #include "splitToolCppJieba.hpp"
 #include "pugixml/pugixml.hpp"
 
-PagesIndexProducer::PagesIndexProducer(splitToolCppJieba*p,simhash::Simhasher* simhasher, const string& xmlsrc)
+PagesIndexProducer::PagesIndexProducer(splitToolCppJieba*p,simhash::Simhasher* simhasher, const string& xmlsrc, const string&xmlNewDestination)
 :_p(p)
 ,_pSimhasher(simhasher)
 {
   cout<<"PagesIndexProduer(...) ctor"<<endl;
   decodeFromXml(xmlsrc);
+  deduplicate();
+  encodeToNewXml(xmlNewDestination);
   wordSegmentation();
 }
 
-void PagesIndexProducer::pagesDeduplication(){
-//
+void PagesIndexProducer::deduplicate(){
 }
 void PagesIndexProducer::buildIndex(){
   cout<<"PagesIndexProduer::buildIndex()"<<endl;
-  pagesDeduplication();
 }
 void PagesIndexProducer::storeIndex(const string& dest){
   cout<<"PagesIndexProduer::storeIndex(const string& src)"<<endl;
