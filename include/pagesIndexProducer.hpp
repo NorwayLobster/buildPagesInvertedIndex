@@ -27,6 +27,7 @@ class PagesIndexProducer{
   ~PagesIndexProducer()=default;
   PagesIndexProducer(const PagesIndexProducer&)=delete;
   void buildIndex();//重点：w=tf*idf算法, tf归一化和w的归一化 //相似度计算：重点余弦相似度
+  void caculateTfIdf();
   void storeIndex(const string&);
   private:
   void deduplicate();

@@ -52,6 +52,10 @@ void PagesIndexProducer::buildIndex(){
 	}
 }
 
+
+void PagesIndexProducer::caculateTfIdf(){
+
+}
 void PagesIndexProducer::storeIndex(const string& dest){
   cout<<"PagesIndexProduer::storeIndex(const string& src)"<<endl;
 	std::ofstream ofs(dest);
