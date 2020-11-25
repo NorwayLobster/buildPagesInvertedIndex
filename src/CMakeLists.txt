@@ -38,6 +38,11 @@ add_executable(${PROJECT_NAME}
     configure.cc
     PageLib.cc
     WebPage.cc
+    pagesDeduplication.cc
+    pagesIndexProducer.cc
+    DirScanner.cc
+    splitTool.cc
+    splitToolCppJieba.cc
 )
 
 target_include_directories( ${PROJECT_NAME}
@@ -51,6 +56,7 @@ target_link_libraries(${PROJECT_NAME}
     sub::cppjieba
     sub::simhash
     sub::pugixml
+    sub::bloomfilter
   # ${Boost_NONCOPYABLE_LIBRARY}// can not not find
   # ${Boost_LIBRARIES}// link all library
   # ${Boost_SYSTEM_LIBRARY}// link specific library
@@ -59,3 +65,11 @@ target_link_libraries(${PROJECT_NAME}
     # Boost::system
 )
 
+if( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
+  message(STATUS "Setting default CMAKE_INSTALL_PREFIX path to ${CMAKE_BINARY_DIR}/install")
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE STRING "The path to use for make install" FORCE)
+endif()
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION include)
+install(FILES ${PROJECT_SOURCE_DIR}/config/conf.dat DESTINATION etc)

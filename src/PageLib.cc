@@ -80,12 +80,13 @@ void PageLib::encodeToXml(const string& filepath){
     link.text().set(webpage._link.c_str());
 
 		pugi::xml_node content = pageData.append_child("content");
-    if (webpage._content.has_value()) {
-    content.text().set(webpage._content.value().c_str());
-    } else {
-    content.text().set(webpage._description.c_str());
+    content.text().set(webpage._content.c_str());
+    // if (webpage._content.has_value()) {
+    // content.text().set(webpage._content.value().c_str());
+    // } else {
+    // content.text().set(webpage._description.c_str());
       // LOG_DEBUG( "ShUserData2Xml::createUserDataXml: Servie Data missed in " "ServiceIndication", "servIndId", v->servIndId);
-    }
+    // }
   }
   // std::stringstream ss;
   // doc.save(ss);

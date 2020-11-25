@@ -90,4 +90,4 @@ install(TARGETS example_bin DESTINATION bin)
 # install(TARGETS sub::helloworld LIBRARY DESTINATION lib) 
 
 # install(FILES ${CMAKE_SOURCE_DIR}/coolshell.xml DESTINATION etc)//error
-install(FILES ${PROJECT_SOURCE_DIR}/coolshell.xml DESTINATION etc)
+install(FILES ${PROJECT_SOURCE_DIR}/example/coolshell.xml DESTINATION etc)

@@ -18,6 +18,7 @@ class WebPage{
     string _docSummary; 
     string _title; 
     string _description;
-    std::optional<std::string> _content;
+    // std::optional<std::string> _content;
+    string  _content;
 };
 #endif 

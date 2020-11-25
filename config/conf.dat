@@ -1,5 +1,8 @@
-project_root_dir /mnt/hgfs/ChengWang/C++/Projects/repo/preprocessForKeywordsRecommendation/
+project_root_dir /home/chengwang/repo/buildPagesInvertedIndex/
+xmlSrcFilesDir inputData/rss
+pageLibXmlDestinationFilePath  outputData/pageslib.xml
 en_file inputData/englishFile/english.txt
+indexFullPath outputData/pagesIndex.lib
 en_dictionary_fullpath outputData/enDict.dat
 en_dictionary_index_fullpath outputData/enDictIndex.dat
 cn_file_path inputData/chineseFile/chineseFilePaths.txt
@@ -10,6 +13,7 @@ hmm_path  3pp/cppjieba/dict/hmm_model.utf8
 user_dict_path 3pp/cppjieba/dict/user.dict.utf8
 idf_path 3pp/cppjieba/dict/idf.utf8
 stopword_path 3pp/cppjieba/dict/stop_words.utf8
+bloomfilterDestinationFullPath outputData/bloomfilter.dat
 ip 127.0.0.1
 port 9999
 thread_num 4 

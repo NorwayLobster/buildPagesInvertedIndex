@@ -11,27 +11,32 @@
 #include "splitToolCppJieba.hpp"
 #include "pugixml/pugixml.hpp"
 
-PagesIndexProducer::PagesIndexProducer(splitToolCppJieba*p,simhash::Simhasher* simhasher, const string& xmlsrc, const string&xmlNewDestination)
-:_p(p)
-,_pSimhasher(simhasher)
+PagesIndexProducer::PagesIndexProducer(splitToolCppJieba*p, PagesDeduplication* dedup, const string& xmlsrc, const string&xmlNewDestination)
+:_cppJieBa(p)
+,_pPagesDeduplication(dedup)
 {
   cout<<"PagesIndexProduer(...) ctor"<<endl;
   decodeFromXml(xmlsrc);
-  deduplicate();
+  // deduplicate();
   encodeToNewXml(xmlNewDestination);
-  wordSegmentation();
+  wordSegmentationAndStatistics();
 }
 
 
-void PagesIndexProducer::wordSegmentation(){
+void PagesIndexProducer::wordSegmentationAndStatistics(){
   cout<<"PagesIndexProduer::wordSegmentation()"<<endl;
 }
 void PagesIndexProducer::encodeToNewXml(const string&xmlNewDestination){
   cout<<"PagesIndexProduer::encodeToNewXml()"<<endl;
+	// _pagesNewVec;
 }
 void PagesIndexProducer::deduplicate(){
   cout<<"PagesIndexProduer::deduplicate()"<<endl;
-
+	for(auto page:_pagesVec){
+		if(!_pPagesDeduplication->isDuplication(page._content)){
+			_pagesNewVec.push_back(page);
+		}
+	}
 }
 void PagesIndexProducer::buildIndex(){
   cout<<"PagesIndexProduer::buildIndex()"<<endl;
@@ -69,6 +74,6 @@ void PagesIndexProducer::decodeFromXml(const string& filePath){
 		page._description=page_node.child("description").text().get();
 		// cout<<"description:"<<item_node.child("description").text().get()<<endl;
 		const string &iContent=page_node.child("content").text().get();
-
+		_pagesVec.push_back(page);
   }
 }

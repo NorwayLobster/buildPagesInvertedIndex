@@ -14,6 +14,7 @@
 #include "pagesIndexProducer.hpp"
 #include "pagesDeduplication.hpp"
 #include "WebPage.hpp"
+#include "DirScanner.hpp"
 #include "configure.hpp"
 using std::endl;
 using std::cout;
@@ -31,34 +32,46 @@ int main(int argc, char **argv){
 	string project_root_dir = config.getConf().at("project_root_dir");
 
 #if 1
-	string en_file = project_root_dir+config.getConf().at("en_file");
-  string xmlSrcFilePath=conf.getConf("");
-	string en_dictionary_fullpath = project_root_dir+config.getConf()["en_dictionary_fullpath"];
-  string pageLibXmlDestinationFilePath;
-	string en_dictionary_index_fullpath =project_root_dir+config.getConf()["en_dictionary_index_fullpath"];
+	// string en_file = project_root_dir+config.getConf().at("en_file");
+  string xmlSrcFilesDir=project_root_dir+config.getConf().at("xmlSrcFilesDir");
+  cout<<xmlSrcFilesDir<<endl;
+	// string en_dictionary_fullpath = project_root_dir+config.getConf()["en_dictionary_fullpath"];
+  string pageLibXmlDestinationFilePath=project_root_dir+config.getConf().at("pageLibXmlDestinationFilePath");
+  cout<<pageLibXmlDestinationFilePath<<endl;
     // cout<<"en_file:"<<en_file<<endl;
     // cout<<"en_dict...:"<<en_dictionary_fullpath<<std::endl;
     // cout<<"en_dict_index...:"<<en_dictionary_index_fullpath<<std::endl;
+    dirScanner scanner;
+    scanner.scan(xmlSrcFilesDir);
+    vector<string> v=scanner.get();
 	port::xmlparser::PageLib pageLib;
-  pageLib.decodeFromXml(xmlSrcFilePath);
+    for(auto xmlSrcFilePath:v){
+      pageLib.decodeFromXml(xmlSrcFilePath);
+    }
   pageLib.encodeToXml(pageLibXmlDestinationFilePath);
 #endif
 
 #if 1 
-	string cn_fileOfFilesName_fullPath = project_root_dir+config.getConf().at("cn_file_path");
-	string cn_dictionary_fullpath = project_root_dir+config.getConf()["cn_dictionary_fullpath"];
-	string cn_dictionary_index_fullpath =project_root_dir+config.getConf()["cn_dictionary_index_fullpath"];
+	// string cn_fileOfFilesName_fullPath = project_root_dir+config.getConf().at("cn_file_path");
+	// string cn_dictionary_fullpath = project_root_dir+config.getConf()["cn_dictionary_fullpath"];
 
 	string jieba_dictionary_index_fullpath = project_root_dir+config.getConf()["dict_path"];
 	string jieba_hmm_fullpath = project_root_dir+config.getConf()["hmm_path"];
 	string jieba_user_dict_fullpath = project_root_dir+config.getConf()["user_dict_path"];
 	string jieba_idf_fullpath = project_root_dir+config.getConf()["idf_path"];
 	string jieba_stopword_fullpath = project_root_dir+config.getConf()["stopword_path"];
+  cout<<jieba_stopword_fullpath<<endl;
 
     splitToolCppJieba spT(jieba_dictionary_index_fullpath, jieba_hmm_fullpath, jieba_user_dict_fullpath, jieba_idf_fullpath, jieba_stopword_fullpath);
-    pagesDeduplication pagesD();
+  string bloomfilterDestinationFullPath=project_root_dir+config.getConf()["bloomfilterDestinationFullPath"];
+  cout<<"bloomfilterDestinationFullPath:"<<bloomfilterDestinationFullPath<<endl;
+  size_t mBloomFilterBitNo=5;//i.e. hash no.
+    PagesDeduplication pagesD(bloomfilterDestinationFullPath, mBloomFilterBitNo, jieba_dictionary_index_fullpath, jieba_hmm_fullpath, jieba_idf_fullpath, jieba_stopword_fullpath);
 
-    pageIndexProducer indexPro(&spT,&pagesD);
+    // Simhasher simhasher("../dict/jieba.dict.utf8", "../dict/hmm_model.utf8", "../dict/idf.utf8", "../dict/stop_words.utf8");
+  string xmlsrc=pageLibXmlDestinationFilePath;
+  string newxmldest;
+  PagesIndexProducer cnIndexPro(&spT,&pagesD,xmlsrc,newxmldest);
     // dictProducer cnDictPro(&spT);
   //   std::ifstream ifs(cn_fileOfFilesName_fullPath); 
   //   string line;
@@ -69,9 +82,10 @@ int main(int argc, char **argv){
   //   }
   //   cnDictPro.storeDict(cn_dictionary_fullpath); //dictPro.storeDict("../data/dictChinese.dat");
 
-    indexProducer cnIndexPro;
-    cnIndexPro.buildIndex(cn_dictionary_fullpath);
-    cnIndexPro.storeIndex(cn_dictionary_index_fullpath); //dictPro.storeIndex("../data/dictChineseIndex.dat");
+    // indexProducer cnIndexPro;
+	string indexFullPath=project_root_dir+config.getConf().at("indexFullPath");
+  cnIndexPro.buildIndex();
+  cnIndexPro.storeIndex(indexFullPath); //dictPro.storeIndex("../data/dictChineseIndex.dat");
 #endif
     return 0;
 }
