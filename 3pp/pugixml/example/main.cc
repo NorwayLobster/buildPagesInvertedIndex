@@ -8,7 +8,8 @@
 #include <optional>
 #include <vector>
 #include <string>
-#include <boost/regex.hpp>
+// #include <boost/regex.hpp>
+#include <regex>
 #include "pugixml/pugixml.hpp"
 using namespace std;
 using namespace pugi;
@@ -53,8 +54,9 @@ cout<<endl;
 
 		//remove html tag
 		string szReg = "<.*?>";
-		boost::regex fmt(szReg);
-		page._content=boost::regex_replace(string(iContent),fmt,string(""));
+		// boost::regex fmt(szReg);
+		std::regex fmt(szReg);
+		page._content=std::regex_replace(string(iContent),fmt,string(""));
 
 		page_vec.push_back(page);
 	}

@@ -22,14 +22,14 @@ else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-find_package(Boost 1.46.1 REQUIRED COMPONENTS regex system filesystem)
+# find_package(Boost 1.46.1 REQUIRED COMPONENTS regex system filesystem)
 
 # check if boost was found
-if(Boost_FOUND)
-    message ("boost found")
-else()
-    message (FATAL_ERROR "Cannot find Boost")
-endif()
+# if(Boost_FOUND)
+#     message ("boost found")
+# else()
+#     message (FATAL_ERROR "Cannot find Boost")
+# endif()
 
 
 add_executable(example_bin main.cc)
@@ -39,22 +39,22 @@ target_link_libraries( example_bin
     sub::pugixml
     # ${Boost_REGEX_LIBRARY}
 )
-target_link_libraries(example_bin
-  PRIVATE
+# target_link_libraries(example_bin
+  # PRIVATE
   # ${Boost_LIBRARIES}// link all library
-  ${Boost_REGEX_LIBRARY}
+  # ${Boost_REGEX_LIBRARY}
   # ${Boost_SYSTEM_LIBRARY}// link specific library
   # ${Boost_FILESYSTEM_LIBRARY}
     # Boost::regex
     # Boost::system
     # Boost::filesystem
-)
+# )
 
 target_include_directories(example_bin
   PUBLIC
     # ${CMAKE_SOURCE_DIR}/include 
     ${PROJECT_SOURCE_DIR}/include 
-    ${Boost_INCLUDE_DIRS}
+    # ${Boost_INCLUDE_DIRS}
 )
 #note:
 # 1. project()
