@@ -22,7 +22,16 @@ PagesIndexProducer::PagesIndexProducer(splitToolCppJieba*p,simhash::Simhasher* s
   wordSegmentation();
 }
 
+
+void PagesIndexProducer::wordSegmentation(){
+  cout<<"PagesIndexProduer::wordSegmentation()"<<endl;
+}
+void PagesIndexProducer::encodeToNewXml(const string&xmlNewDestination){
+  cout<<"PagesIndexProduer::encodeToNewXml()"<<endl;
+}
 void PagesIndexProducer::deduplicate(){
+  cout<<"PagesIndexProduer::deduplicate()"<<endl;
+
 }
 void PagesIndexProducer::buildIndex(){
   cout<<"PagesIndexProduer::buildIndex()"<<endl;

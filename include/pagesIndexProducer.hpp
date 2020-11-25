@@ -21,7 +21,7 @@ class PagesIndexProducer{
   PagesIndexProducer(splitToolCppJieba*p, pagesDeduplication *p1, const string&);
   ~PagesIndexProducer()=default;
   PagesIndexProducer(const PagesIndexProducer&)=delete;
-  void buildIndex();
+  void buildIndex();//重点：w=tf*idf算法, tf归一化和w的归一化 //相似度计算：重点余弦相似度
   void storeIndex(const string&);
   private:
   void deduplicate();
@@ -32,7 +32,7 @@ class PagesIndexProducer{
   splitToolCppJieba *_p;
   pagesDeduplication * _pPagesDeduplication;
   std::vector<std::vector<string>>  _wordPages;
-  std::vector<std::vector<string>>  _wordNewPages;//without duplication //TODO：可以不存储两次,节省空间
+  std::vector<std::vector<string>>  _wordNewPages;//without duplication page //TODO：可以不存储两次,节省空间
   std::map<string,std::pair<std::set<int>,double>> _index;
 };
 #endif
