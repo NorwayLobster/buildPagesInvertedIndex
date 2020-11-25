@@ -13,10 +13,13 @@ PagesDeduplication::PagesDeduplication(const string&bloomfilterDestinationFullPa
 }
 bool PagesDeduplication::isDuplication(const string&page){
   cout<<"pagesDeduplication::isDeduplicate(...)"<<endl;
+  // cout<<"page:"<<page<<endl;
   int topN=5;
   uint64_t simhashVal;
   _sh.make(page,topN,simhashVal);
+  cout<<"simhashVal:"<<simhashVal<<endl;
   string simhashValString;
   simhash::Simhasher::toBinaryString(simhashVal, simhashValString);
+  cout<<"simhashValString:"<<simhashValString<<endl;
   return _bf.testAndadd(simhashValString);
 }

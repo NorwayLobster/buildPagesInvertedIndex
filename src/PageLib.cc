@@ -21,29 +21,27 @@ using std::string;
 namespace port::xmlparser {
 
 void PageLib::decodeFromXml(const string& filePath){
-	cout<<"test0"<<endl;
+	// cout<<"test0"<<endl;
 	xml_document doc;
 	xml_parse_result result = doc.load_file(filePath.c_str());
 	if(!result){
 		std::cerr<<"pugixml parse error"<<endl;
 		return ;
 	}
-	cout<<doc.child("rss").attribute("version").value()<<endl;
-	cout<<doc.child("rss").child("channel").child("title").text().get()<<endl;
-	cout<<doc.child("rss").child("channel").child("description").text().get()<<endl;
-	cout<<doc.child("rss").child("channel").child("link").text().get()<<endl;
-	cout<<doc.child("rss").child("channel").child("item").child("title").text().get()<<endl;
-	cout<<doc.child("rss").child("channel").child("item").child("link").text().get()<<endl;
-	// cout<<doc.child("rss").child("channel").child("item").child("content:encoded").text().get()<<endl;
-	cout<<doc.child("rss").child("channel").child("item").next_sibling().child("title").text().get()<<endl;
-cout<<endl;
+	// cout<<doc.child("rss").attribute("version").value()<<endl;
+	// cout<<doc.child("rss").child("channel").child("title").text().get()<<endl;
+	// cout<<doc.child("rss").child("channel").child("description").text().get()<<endl;
+	// cout<<doc.child("rss").child("channel").child("link").text().get()<<endl;
+	// cout<<doc.child("rss").child("channel").child("item").child("title").text().get()<<endl;
+	// cout<<doc.child("rss").child("channel").child("item").child("link").text().get()<<endl;
+	// // cout<<doc.child("rss").child("channel").child("item").child("content:encoded").text().get()<<endl;
+	// cout<<doc.child("rss").child("channel").child("item").next_sibling().child("title").text().get()<<endl;
+	// cout<<endl;
 	pugi::xml_node items_node= doc.child("rss").child("channel");
-	for(xml_node_iterator it= items_node.begin();it!=items_node.end();++it){
-		cout<<"title:"<<it->child("title").text().get()<<endl;
-	}
-	cout<<endl;
+	// for(xml_node_iterator it= items_node.begin();it!=items_node.end();++it){ cout<<"title:"<<it->child("title").text().get()<<endl; }
+	// cout<<endl;
 	for(xml_node &item_node:items_node.children("item")){ //range taraverse
-		cout<<"title:"<<item_node.child("title").text().get()<<endl;
+		// cout<<"title:"<<item_node.child("title").text().get()<<endl;
 		WebPage page;
 		page._title=item_node.child("title").text().get();
 		page._link=item_node.child("link").text().get();

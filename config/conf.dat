@@ -1,6 +1,7 @@
 project_root_dir /home/chengwang/repo/buildPagesInvertedIndex/
 xmlSrcFilesDir inputData/rss
 pageLibXmlDestinationFilePath  outputData/pageslib.xml
+newxmldest outputData/pagesNewLib.xml
 en_file inputData/englishFile/english.txt
 indexFullPath outputData/pagesIndex.lib
 en_dictionary_fullpath outputData/enDict.dat

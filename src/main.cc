@@ -28,16 +28,16 @@ int main(int argc, char **argv){
 		// exit(-1);
 	}
 
-   Configuration config(argv[1]);
+  Configuration config(argv[1]);
 	string project_root_dir = config.getConf().at("project_root_dir");
 
 #if 1
 	// string en_file = project_root_dir+config.getConf().at("en_file");
   string xmlSrcFilesDir=project_root_dir+config.getConf().at("xmlSrcFilesDir");
-  cout<<xmlSrcFilesDir<<endl;
+  // cout<<xmlSrcFilesDir<<endl;
 	// string en_dictionary_fullpath = project_root_dir+config.getConf()["en_dictionary_fullpath"];
   string pageLibXmlDestinationFilePath=project_root_dir+config.getConf().at("pageLibXmlDestinationFilePath");
-  cout<<pageLibXmlDestinationFilePath<<endl;
+  // cout<<pageLibXmlDestinationFilePath<<endl;
     // cout<<"en_file:"<<en_file<<endl;
     // cout<<"en_dict...:"<<en_dictionary_fullpath<<std::endl;
     // cout<<"en_dict_index...:"<<en_dictionary_index_fullpath<<std::endl;
@@ -46,6 +46,7 @@ int main(int argc, char **argv){
     vector<string> v=scanner.get();
 	port::xmlparser::PageLib pageLib;
     for(auto xmlSrcFilePath:v){
+      // cout<<"xmlSrcFilePath:"<<xmlSrcFilePath<<endl;
       pageLib.decodeFromXml(xmlSrcFilePath);
     }
   pageLib.encodeToXml(pageLibXmlDestinationFilePath);
@@ -60,17 +61,17 @@ int main(int argc, char **argv){
 	string jieba_user_dict_fullpath = project_root_dir+config.getConf()["user_dict_path"];
 	string jieba_idf_fullpath = project_root_dir+config.getConf()["idf_path"];
 	string jieba_stopword_fullpath = project_root_dir+config.getConf()["stopword_path"];
-  cout<<jieba_stopword_fullpath<<endl;
+  // cout<<jieba_stopword_fullpath<<endl;
 
     splitToolCppJieba spT(jieba_dictionary_index_fullpath, jieba_hmm_fullpath, jieba_user_dict_fullpath, jieba_idf_fullpath, jieba_stopword_fullpath);
   string bloomfilterDestinationFullPath=project_root_dir+config.getConf()["bloomfilterDestinationFullPath"];
-  cout<<"bloomfilterDestinationFullPath:"<<bloomfilterDestinationFullPath<<endl;
+  // cout<<"bloomfilterDestinationFullPath:"<<bloomfilterDestinationFullPath<<endl;
   size_t mBloomFilterBitNo=5;//i.e. hash no.
     PagesDeduplication pagesD(bloomfilterDestinationFullPath, mBloomFilterBitNo, jieba_dictionary_index_fullpath, jieba_hmm_fullpath, jieba_idf_fullpath, jieba_stopword_fullpath);
 
     // Simhasher simhasher("../dict/jieba.dict.utf8", "../dict/hmm_model.utf8", "../dict/idf.utf8", "../dict/stop_words.utf8");
   string xmlsrc=pageLibXmlDestinationFilePath;
-  string newxmldest;
+	string newxmldest=project_root_dir+config.getConf().at("newxmldest");
   PagesIndexProducer cnIndexPro(&spT,&pagesD,xmlsrc,newxmldest);
     // dictProducer cnDictPro(&spT);
   //   std::ifstream ifs(cn_fileOfFilesName_fullPath); 
