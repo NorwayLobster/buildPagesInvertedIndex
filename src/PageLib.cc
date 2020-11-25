@@ -10,7 +10,8 @@
 #include "PageLib.hpp"
 #include "WebPage.hpp"
 #include "pugixml/pugixml.hpp"
-#include <boost/regex.hpp>
+#include <regex>
+// #include <boost/regex.hpp>
 #include <iostream>
 
 using namespace pugi;
@@ -24,7 +25,7 @@ void PageLib::decodeFromXml(const string& filePath){
 	xml_document doc;
 	xml_parse_result result = doc.load_file(filePath.c_str());
 	if(!result){
-		cerr<<"pugixml parse error"<<endl;
+		std::cerr<<"pugixml parse error"<<endl;
 		return ;
 	}
 	cout<<doc.child("rss").attribute("version").value()<<endl;
@@ -52,8 +53,9 @@ cout<<endl;
 
 		//remove html tag
 		string szReg = "<.*?>";
-		boost::regex fmt(szReg);
-		page._content=boost::regex_replace(string(iContent),fmt,string(""));
+		// boost::regex fmt(szReg);
+		std::regex fmt(szReg);
+		page._content=std::regex_replace(string(iContent),fmt,string(""));
 
 		_pagesVec.push_back(page);
 	}
@@ -67,11 +69,11 @@ void PageLib::encodeToXml(const string& filepath){
   decl.append_attribute("encoding") = "UTF-8";
   pugi::xml_node webData = doc.append_child("WebPageData");
 	int index=0;
-  for (auto& webpage : page_vec) {
+  for (auto& webpage :_pagesVec) {
     pugi::xml_node pageData = webData.append_child("page");
     pugi::xml_node docid= pageData.append_child("docid");
 		// add docid
-    docid.text().set(to_string(index++).c_str());
+    docid.text().set(std::to_string(index++).c_str());
     pugi::xml_node title = pageData.append_child("title");
     title.text().set(webpage._title.c_str());
     pugi::xml_node link = pageData.append_child("link");

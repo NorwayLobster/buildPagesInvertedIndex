@@ -14,7 +14,7 @@ using std::string;
 class WebPage{
   public:
     string _docid; 
-    string _docUrl; 
+    string _link; 
     string _docSummary; 
     string _title; 
     string _description;

@@ -4,3 +4,6 @@
 [submodule "3pp/simhash"]
 	path = 3pp/simhash
 	url = git@github.com:NorwayLobster/simhash.git
+[submodule "3pp/bloomfilter"]
+	path = 3pp/bloomfilter
+	url = git@github.com:NorwayLobster/bloomfilter.git
