@@ -20,3 +20,4 @@
 ## 7.  增量更新倒排索引
 ## 8.  save page into RDB, or xml db
 ## 9. 注意stopword的使用
+## 10. simhash值得相似度计算：海明威距离, isEqual(), 目前o(N), 有o（1）的办法

@@ -4,6 +4,7 @@
 #include "simhash/simhasher.hpp"
 #include "bloomfilter/BloomFilter.hpp"
 #include <string>
+#include <vector>
 using std::string;
 class PagesDeduplication{
   public:
@@ -13,6 +14,7 @@ class PagesDeduplication{
   bool isDuplication(const string&page);
   private:
   BloomFilter _bf;
+  std::vector<uint64_t> _simhashvalVec;
   simhash::Simhasher _sh;
 };
 #endif

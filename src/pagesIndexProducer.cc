@@ -113,7 +113,7 @@ void PagesIndexProducer::deduplicate(){
 	for(auto page:_pagesVec){
 // 
 		bool flag=_pPagesDeduplication->isDuplication(page._content);
-		cout<<"flag:"<<flag<<endl;
+		// cout<<"Duplication flag:"<<flag<<endl;
 		if(!flag){
 		// if(!_pPagesDeduplication->isDuplication(page._content)){
 			_pagesNewVec.push_back(page);

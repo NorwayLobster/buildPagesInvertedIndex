@@ -11,6 +11,7 @@ PagesDeduplication::PagesDeduplication(const string&bloomfilterDestinationFullPa
 {
   cout<<"pagesDeduplication(...) ctor"<<endl;
 }
+
 bool PagesDeduplication::isDuplication(const string&page){
   cout<<"pagesDeduplication::isDeduplicate(...)"<<endl;
   // cout<<"page:"<<page<<endl;
@@ -18,8 +19,18 @@ bool PagesDeduplication::isDuplication(const string&page){
   uint64_t simhashVal;
   _sh.make(page,topN,simhashVal);
   cout<<"simhashVal:"<<simhashVal<<endl;
-  string simhashValString;
-  simhash::Simhasher::toBinaryString(simhashVal, simhashValString);
-  cout<<"simhashValString:"<<simhashValString<<endl;
-  return _bf.testAndadd(simhashValString);
+  uint64_t lhs=simhashVal;
+  int n=3;
+  for(auto rhs:_simhashvalVec){
+    //isEqual(): o(N), 可以优化成O(1)
+      bool flag=simhash::Simhasher::isEqual(lhs, rhs,n);//A和B的海明距离是否小于等于n，这个n值根据经验一般取值为3,
+      if(flag)
+        return true;//有重复
+  }
+  _simhashvalVec.push_back(simhashVal);
+  return false;//无重复
+  // string simhashValString;
+  // simhash::Simhasher::toBinaryString(simhashVal, simhashValString);
+  // cout<<"simhashValString:"<<simhashValString<<endl;
+  // return _bf.testAndadd(simhashValString);
 }
