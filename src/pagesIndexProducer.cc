@@ -44,7 +44,8 @@ void PagesIndexProducer::buildIndex(){
 		for(auto p:hashDict){
 			// cout<<"page.id:"<<page._docid<<endl;
 			// cout<<"word:"<<p.first<<",docid:"<<docid<<",frequencey:"<<p.second<<endl;
-			_index[p.first].insert(std::pair(docid,std::pair(p.second,0.0)));//weight 初始为0
+			// _index[p.first].insert(std::pair(docid,std::pair(p.second,0.0)));//weight 初始为0
+			_index[p.first].push_back(std::make_tuple(docid, p.second,0.0));//weight 初始为0
 		}
 		vec_word.clear();
 		hashDict.clear();
@@ -66,9 +67,13 @@ void PagesIndexProducer::storeIndex(const string& dest){
 	for(auto p:_index){
 			ofs<<p.first<<" ";
 			// cout<<"word:"<<p.first;
-			for(auto p_:p.second){
-				// cout<<",docid:"<<p_.first<<",frequencey:"<<p_.second.first<<" ";
-				ofs<<p_.first<<" "<<p_.second.first<<" "<<p_.second.second<<" ";
+			// for(auto p_:p.second){
+			// 	// cout<<",docid:"<<p_.first<<",frequencey:"<<p_.second.first<<" ";
+			// 	ofs<<p_.first<<" "<<p_.second.first<<" "<<p_.second.second<<" ";
+			// }
+
+			for(auto t:p.second){
+				ofs<<std::get<0>(t)<<" "<<std::get<1>(t)<<" "<<std::get<2>(t)<<" ";
 			}
 			ofs<<endl;
 			// cout<<endl;

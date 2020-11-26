@@ -15,8 +15,10 @@
 #include <string>
 #include <set>
 #include <map>
-#include <utility>
+// #include <utility>
+#include <tuple>
 using std::string;
+using std::vector;
 class PagesIndexProducer{
  public: 
  using docId=size_t;
@@ -38,11 +40,12 @@ class PagesIndexProducer{
   private:
   splitToolCppJieba *_cppJieBa;
   PagesDeduplication * _pPagesDeduplication;
-  std::vector<WebPage>  _pagesVec;
-  std::vector<WebPage>  _pagesNewVec;//without duplication page //TODO：可以不存储两次,节省空间
+  vector<WebPage>  _pagesVec;
+  vector<WebPage>  _pagesNewVec;//without duplication page //TODO：可以不存储两次,节省空间
   // std::vector<std::vector<string>>  _wordPages;
-  std::vector<std::vector<string>>  _wordNewPagesVec;
-  std::map<string,std::set<std::pair<docId, std::pair<Frequency,tfidfWeight>>>> _index;
+  vector<vector<string>>  _wordNewPagesVec;
+  // std::map<string,std::set<std::pair<docId, std::pair<Frequency,tfidfWeight>>>> _index;
+  std::map<string,vector<std::tuple<docId, Frequency,tfidfWeight>>> _index;
   //word, <docid,(frequency,weight)>, <docid,(frequency,weight)>, ...
 };
 #endif
