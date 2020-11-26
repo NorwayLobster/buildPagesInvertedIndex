@@ -86,6 +86,7 @@ int main(int argc, char **argv){
     // indexProducer cnIndexPro;
 	string indexFullPath=project_root_dir+config.getConf().at("indexFullPath");
   cnIndexPro.buildIndex();
+  cnIndexPro.caculateTfIdfWeight();
   cnIndexPro.storeIndex(indexFullPath); //dictPro.storeIndex("../data/dictChineseIndex.dat");
 #endif
     return 0;

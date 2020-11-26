@@ -14,12 +14,20 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <utility>
+#include <algorithm>
+#include <iostream>
+#include <cmath>
+using std::pair;
+using std::endl;
+using std::cout;
+
 
 PagesIndexProducer::PagesIndexProducer(splitToolCppJieba*p, PagesDeduplication* dedup, const string& xmlsrc, const string&xmlNewDestination)
 :_cppJieBa(p)
 ,_pPagesDeduplication(dedup)
 {
-  cout<<"PagesIndexProduer(...) ctor"<<endl;
+  // cout<<"PagesIndexProduer(...) ctor"<<endl;
   decodeFromXml(xmlsrc);
 	// cout<<"xmlsrc:"<<xmlsrc<<endl;
   deduplicate();
@@ -33,19 +41,37 @@ void PagesIndexProducer::buildIndex(){
 	vector<string> vec_word;
 	std::unordered_map<string,Frequency> hashDict;
 	for(auto page:_pagesNewVec){
+		// cout<<"page._content:"<<page._content<<endl;
 		_cppJieBa->cut(page._content,vec_word);
+		_wordNewPagesVec.push_back(vec_word);//do not forget this one
+		// cout<<"1"<<endl;
 		for(auto word:vec_word){
         hashDict[word]+=1;
 		} 
-		unsigned long int docid;//=std::stoul(page._docid,nullptr,0);
+		// cout<<"2"<<endl;
+		docId docid;//=std::stoul(page._docid,nullptr,0);
+		// unsigned long long int docid;//=std::stoul(page._docid,nullptr,0);
 		std::stringstream ss;
 		ss<<page._docid;
 		ss>>docid;
+
+		// cout<<"hashDict.size():"<<hashDict.size()<<endl;
+		// for(auto p:hashDict){ cout<<"first:"<<p.first<<",second:"<<p.second<<endl; }
+		// cout<<"3"<<endl;
+		std::unordered_map<string,Frequency>::iterator iter_max_tf_in_the_same_document=std::max_element(hashDict.begin(),hashDict.end(), [](const pair<string,Frequency> &lhs,const pair<string,Frequency> &rhs)->bool{return lhs.second<rhs.second;});
+		// cout<<"3.1"<<endl;
+		// cout<<"max_tf_in_the_same_document:"<<iter_max_tf_in_the_same_document->first<<endl;
+		Frequency max_tf_in_the_same_document=iter_max_tf_in_the_same_document->second;
+		// cout<<"4"<<endl;
 		for(auto p:hashDict){
 			// cout<<"page.id:"<<page._docid<<endl;
 			// cout<<"word:"<<p.first<<",docid:"<<docid<<",frequencey:"<<p.second<<endl;
 			// _index[p.first].insert(std::pair(docid,std::pair(p.second,0.0)));//weight 初始为0
-			_index[p.first].push_back(std::make_tuple(docid, p.second,0.0));//weight 初始为0
+
+			// cout<<"in for"<<endl;
+			_index[p.first].push_back(Data(docid, p.second,0.0,max_tf_in_the_same_document));//weight 初始为0
+			// _index[p.first].push_back(myTuple<docId, Frequency,tfidfWeight,Frequency>(docid, p.second,0.0,max_tf_in_the_same_document));//weight 初始为0
+			// _index[p.first].push_back(std::make_tuple(docid, p.second,0.0,max_tf_in_the_same_document));//weight 初始为0
 		}
 		vec_word.clear();
 		hashDict.clear();
@@ -54,9 +80,34 @@ void PagesIndexProducer::buildIndex(){
 }
 
 
-void PagesIndexProducer::caculateTfIdf(){
+void PagesIndexProducer::caculateTfIdfWeight(){
+	double a=0.4;//from 这就是搜索引擎
+	// double tf=a+(1-a)*TF/max(TF_SET);
+	// double idf=log(N/DF);
+	int n=_wordNewPagesVec.size();
+	// cout<<"n:"<<n<<endl;
+	double tf;
+	int df;
+	double idf;
+  // std::map<string,vector<std::tuple<docId, Frequency,tfidfWeight>>> _index;
+	// int i=10;
+	for(auto& p:_index){
+		// i--;
+		df=p.second.size();
 
+		idf=std::log(n/(double)(df+1));//防止某个单词的df=0;// please note
+		
+		// cout<<"idf:"<<idf<<endl;
+		// if(i<0) break; continue;
+		for(auto& t:p.second){
+			tf= a+(1-a)*(t.frequency/double(t.max_frequency));//very tricky
+			// cout<<"tf:"<<tf<<endl;
+			t.tfidfweight=tf*idf;
+			// cout<<"t.tfidfweight:"<<t.tfidfweight<<endl;
+		}
+	}
 }
+
 void PagesIndexProducer::storeIndex(const string& dest){
   cout<<"PagesIndexProduer::storeIndex(const string& src)"<<endl;
 	std::ofstream ofs(dest);
@@ -65,7 +116,8 @@ void PagesIndexProducer::storeIndex(const string& dest){
 		exit(-1);
 	}
 	for(auto p:_index){
-			ofs<<p.first<<" ";
+			ofs<<p.first<<":";
+			// ofs<<p.first<<" ";
 			// cout<<"word:"<<p.first;
 			// for(auto p_:p.second){
 			// 	// cout<<",docid:"<<p_.first<<",frequencey:"<<p_.second.first<<" ";
@@ -73,7 +125,9 @@ void PagesIndexProducer::storeIndex(const string& dest){
 			// }
 
 			for(auto t:p.second){
-				ofs<<std::get<0>(t)<<" "<<std::get<1>(t)<<" "<<std::get<2>(t)<<" ";
+				// ofs<<std::get<0>(t)<<" "<<std::get<1>(t)<<" "<<std::get<2>(t)<<" ";
+					ofs<<t.id<<","<<t.frequency<<","<<t.tfidfweight<<","<<t.max_frequency<<" ";
+					// ofs<<t.id<<" "<<t.frequency<<" "<<t.tfidfweight<<" "<<t.max_frequency<<",";
 			}
 			ofs<<endl;
 			// cout<<endl;

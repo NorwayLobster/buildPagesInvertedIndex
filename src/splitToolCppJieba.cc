@@ -17,6 +17,7 @@ splitToolCppJieba::~splitToolCppJieba(){
 }
 
 void splitToolCppJieba::cut(const string & sentence, vector<string>&words){ 
-	cout<<"cut()"<<endl;
+	// cout<<"cut()"<<endl;
 	_cppJieba.Cut(sentence,words,true);
+	// cout<<"after cut()"<<endl;
 }
